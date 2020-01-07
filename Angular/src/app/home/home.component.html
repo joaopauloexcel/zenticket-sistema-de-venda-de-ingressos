@@ -1,0 +1,178 @@
+<div class="row sub-titulo">
+    <div class="col-1"><img style="margin-top:95px; margin-left:33px; width: 90px;" src="../assets/giphy.gif"></div>
+    <div class="col-2"></div>
+    <div class="col-6"><h6 class="titulo-sub">Adquira seu ingresso...</h6></div>
+    <div class="col-3 perfilFormat" style="margin-top:10px;margin-right: -20px;">
+        <div class="dropdown">
+          <div class="menu-perfil">
+            <a data-toggle="dropdown"><img class="perfilFormat" src="../assets/perfil.png" (click)="useEmail()"></a> 
+            <table  class="dropdown-menu">
+                <b style="color: black;margin-top: 10px;margin-left: 20px">Login&nbsp; {{userEmail}}</b>
+                <a *ngIf="roles" class="hoverMouse btn btn-block" (click)="logout()">
+                    <img style="width: 100px;" src="../assets/logout.png">
+                </a>
+                <a *ngIf="!roles" class="hoverMouse btn btn-block" (click)="login()">
+                    <img style="width: 100px;" src="../assets/login.png">
+                </a>
+            </table>  
+          </div>        
+        </div>
+    </div>
+  </div>
+<div class="container" style="z-index:1">
+  <div class="row">
+      <div class="col-12 container-fluid conteudo">
+          <br>
+          <table class="table table-borderless fixo tabelatitulo">
+            <tr style="height: 0px">
+                <td width="100px" style="padding-left:0px">
+                    <div *ngIf="roles=='3' || roles=='2'"  class="btn-add" (click)="clearEvento();openLg(salvarModal)">
+                        <img class="icone-add" width="16px" src="../assets/add.png" >Cadastrar
+                    </div>
+                  </td>
+              <td width="100px" style="color: #ffce2d; height: 5px;">
+                <b>Lista de Eventos</b>
+              </td>
+              <td width="30px">
+              </td>
+            </tr>
+          </table>
+            <table style="padding:20px; padding-bottom: 10px">
+                <tr *ngFor="let evento of eventos" style="font-size: 10px;">
+                    <td style="padding:20px; padding-bottom: 10px" width="200px">
+                        <img style="width:120px; height: 90px" src="../assets/eventos.png">
+                    </td>
+                    <td style="padding:20px; padding-bottom: 10px; font-size: 15px;" width="400px">
+                        <h5>{{evento.titulo}}</h5>
+                        <i><b>Descrição:</b> {{evento.descricao}}</i><br>
+                    </td>
+                    <td style="padding:20px; padding-bottom: 10px; font-size: 15px" width="300px">
+                        <i><b>Local:</b> {{evento.local}}</i><br>
+                        <i><b>Data:</b> {{evento.data | date: 'dd/MM/yyyy'}}</i><br>
+                        <i><b>Hora:</b> {{evento.hora}}</i><br>
+                        <i><b style="font-size: 20px;">R${{evento.valor}},00</b></i><br>
+                    </td>
+                    <td>
+                        <div *ngIf="roles==3 || roles==2" style="padding: 10px; text-align: center;">
+                            <a tiplacement="top"  ngbTooltip="Editar"  (click)="updateEvento(evento);openLg(salvarModal)">
+                              <img style="width:20px; height: 25px" src="../assets/editar.png">
+                            </a>
+                        </div>  
+                      <div>
+                          <button *ngIf="mail" type="button" class="btn_submit btn btn-lg btn-block" (click)="updateEvento(evento);openLg(confirmacao)">Comprar</button>
+                          <button *ngIf="!mail" type="button" class="btn_submit btn btn-lg btn-block" (click)="login()">Comprar</button>
+                      </div>                 
+                    </td>
+                </tr>
+          </table>
+        </div>  
+  </div>    
+</div>
+ 
+  <!-- Modal Alterar/Cadastrar -->
+  <ng-template #salvarModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CADASTRO DE EVENTOS</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input  type="text" class="form-control" name="titulo" required [(ngModel)]="evento.titulo"/>
+          </div>
+          <div class="form-group">
+              <label for="descricao">Descrição:</label>
+              <textarea  type="text" class="form-control" name="descricao" required [(ngModel)]="evento.descricao"></textarea>
+          </div>
+          <div class="form-group row">
+              &nbsp;&nbsp; &nbsp;&nbsp;<label for="data" class="col-3">Data:</label>
+              &nbsp;&nbsp;<label for="hora" class="col-3">Hora:</label>
+              &nbsp;&nbsp;<label for="valor" class="col-3">Valor:</label>
+          </div>
+          <div class="form-group row">
+              &nbsp;&nbsp;&nbsp;&nbsp;<input  type="date" class="form-control col-3" name="data" required [(ngModel)]="evento.data"/>
+              &nbsp;&nbsp;<input  type="time" class="form-control col-3" name="hora" required [(ngModel)]="evento.hora"/>
+              &nbsp;&nbsp;<input  type="number" class="form-control col-3" name="valor" required [(ngModel)]="evento.valor"/>
+          </div>
+          <div class="form-group col-8">
+            <label for="descricao">Local:</label>
+            <input  type="text" class="form-control" name="local" required [(ngModel)]="evento.local"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lingt" (click)="modal.dismiss()">Fechar</button>
+        <button (click)="saveEvento()" type="button" class="btn btn-success">Salvar</button>
+      </div>
+    </div>
+  </ng-template>
+  
+    <ng-template #confirmacao let-modal>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">INGRESSO DE INSCRIÇÃO EM EVENTO</h5>
+            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="titulo">Título:</label>
+                <input  type="text" class="form-control" readonly="true" name="titulo" required [(ngModel)]="evento.titulo"/>
+              </div>
+              <div class="form-group">
+                  <label for="descricao">Descrição:</label>
+                  <textarea  type="text" class="form-control" readonly="true" name="descricao" required [(ngModel)]="evento.descricao"></textarea>
+              </div>
+              <div class="form-group row">
+                  &nbsp;&nbsp;<label for="data"  class="col-3">Local:</label>
+                  &nbsp;&nbsp;<label for="data"  class="col-3">Data:</label>
+                  &nbsp;&nbsp;<label for="data"  class="col-3">hora:</label>
+              </div>
+              <div class="form-group row">
+                  &nbsp;&nbsp;&nbsp;&nbsp; <input  type="text" class="col-3 form-control" readonly="true" name="local" required [(ngModel)]="evento.local"/>
+                  &nbsp;&nbsp;<input  type="text" class="col-3 form-control" readonly="true" name="data" required [(ngModel)]="evento.data"/>
+                  &nbsp; &nbsp;<input  type="text" class="col-3 form-control" readonly="true" name="hora" required [(ngModel)]="evento.hora"/>
+              </div>
+              <div class="form-group row">
+                  &nbsp;&nbsp;<label for="qtd"  class="col-3">Quantidade:</label>
+                  &nbsp;&nbsp;<label for="valor"  class="col-3">Valor:</label>
+                  &nbsp;&nbsp;<label for="valorfinal"  class="col-3">Valor final:</label>
+              </div>
+              <div class="form-group row">
+                  &nbsp;&nbsp;&nbsp;&nbsp; <input  type="number" class="col-3 form-control" (keyup)="upValor()" name="qtd" required [(ngModel)]="inscricao.qtd"/>
+                  &nbsp;&nbsp;<input  type="number" class="col-3 form-control" readonly="true" name="valor" required [(ngModel)]="evento.valor"/>
+                  &nbsp; &nbsp;<input  type="number" class="col-3 form-control" readonly="true" name="valorfinal" required [(ngModel)]="valorfinal"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-lingt" (click)="modal.dismiss()">Fechar</button>
+            <button (click)="setinscricao()" type="button" class="btn btn-success" [disabled]="!desabilita">Pagar e Confirmar</button>
+          </div>
+        </div>
+      </ng-template>
+  
+  <!-- Modal Excluir -->
+  <ng-template #excluirModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirma a Exclusão?</h5>
+        <button type="button" class="close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>A operação será irreversível, deseja continuar?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button"class="btn btn-lingt" (click)="modal.dismiss()">Cancelar</button>
+        <button (click)="deleteEvento()" type="button" class="btn btn-danger">Excluir</button>
+      </div>
+    </div>
+  </ng-template>

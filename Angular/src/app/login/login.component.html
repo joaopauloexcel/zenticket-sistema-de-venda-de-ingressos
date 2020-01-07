@@ -1,0 +1,131 @@
+<div class="row sub-titulo">
+    <div class="col-1"><img style="margin-top:95px; margin-left:33px; width: 90px;" src="../assets/giphy.gif"></div>
+    <div class="col-2"></div>
+    <div class="col-6"><h6 class="titulo-sub">Faça o Login...</h6></div>
+    <div class="col-3 perfilFormat" style="margin-top:10px;margin-right: -20px;">
+    </div>
+  </div>
+
+  <div *ngIf="isLoggedIn" class="inlogin">
+      <div class="card mb-3 bg-info fundo">
+        <div class="card-body"><br>
+          <h4 class="card-title"></h4>
+          <p class="inlogin" id="inlogintext">Ei! Você já está logado no momento!.<p></p>
+        </div>
+      </div>
+    </div>
+
+<div *ngIf="!isLoggedIn" style="margin-top:-140px">
+  <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-0 col-sm-2 col-md-3 col-lg-3 col-xl-4">		
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 col-xl-4">
+      <div class="centro col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row login-sub">
+        </div>
+        <div class="row">
+          <img width="90%" style="padding-left:25px; padding-top: 0px; padding-bottom: 30px" src="../assets/logo.png"/>
+        </div>
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text icone_login">
+              <img src="../assets/email.png"  style="opacity : 0.7" height="25px"/>
+            </div>
+          </div>
+          <input type="text" formControlName="email" [ngClass]="class_email" [(ngModel)]="form.email" placeholder="Digite seu E-mail" required />
+        </div>
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text icone_login">
+              <img src="../assets/senha.png" style="opacity : 0.7" height="25px"/>
+            </div>
+          </div>
+          <input type="password" [ngClass]="class_password" formControlName="senha" [(ngModel)]="form.senha" placeholder="Digite sua Senha" minlength="6"/>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn_submit btn btn-lg btn-block">Acessar</button>
+        </div>
+        </form>
+        <div>
+            <a routerLink="/loginrec"><p style="color:black; text-align: center"><u>Esqueceu seu login?</u></p></a>
+          </div>
+          <div>
+              <a (click)="newPeople();openLg(salvarModal)"><p style="color:black; text-align: center"><u><b>Cadastre-se</b></u></p></a>
+          </div>
+      </div>
+    </div>
+    <div class="col-xs-0 col-sm-2 col-md-3 col-lg-3 col-xl-4">
+    </div>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+ </div>
+
+   <!-- Modal Alterar/Cadastrar -->
+<ng-template #salvarModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}} pessoa</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input  type="text" class="form-control col-9" name="nome" required [(ngModel)]="pessoa.nome"/>
+          </div>
+          <div class="form-group">
+          </div>
+          <div class="form-group row">
+            &nbsp; &nbsp; &nbsp; &nbsp;<label for="email" class="col-6">Email:</label>
+            &nbsp; &nbsp; <label for="senha" class="col-4">Senha</label>
+          </div>
+          <div class="form-group row">
+              &nbsp; &nbsp; &nbsp; &nbsp;<input type="text" class="form-control col-6" name="email" required [(ngModel)]="pessoa.email"/>
+              &nbsp; &nbsp;<input type="password" class="form-control col-4" name="senha" required [(ngModel)]="pessoa.senha"/>
+            </div>
+          <div class="row form-group">
+            <div class="col-4">
+              <label for="cep">CEP:</label>
+              <input (keyup)="buscarCep()" maxlength="8" type="text" class="form-control" name="cep" required [(ngModel)]="pessoa.cep"/>
+            </div>
+            <div class="col-6">
+              <label for="rua">Rua:</label>
+              <input type="text" class="form-control"  name="rua" [(ngModel)]="pessoa.rua"/>
+            </div>
+            <div class="col-2">
+              <label for="numero">Número:</label>
+              <input type="text" class="form-control" name="numero" required [(ngModel)]="pessoa.numero"/>
+            </div>
+          </div> 
+          <div class="row form-group">
+            <div class="col">
+              <label for="complemento">Complemento:</label>
+              <input type="text" class="form-control" name="complemento" required [(ngModel)]="pessoa.complemento"/>
+            </div>
+            <div class="col">
+              <label for="bairro">Bairro:</label>
+              <input type="text" class="form-control" name="bairro" required [(ngModel)]="pessoa.bairro"/>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-7">
+              <label for="cidade">Cidade:</label>
+              <input type="text" class="form-control" name="cidade" required [(ngModel)]="pessoa.cidade"/>
+            </div>
+            <div class="col-5">
+              <label for="estado">Estado:</label>
+              <input type="text" class="form-control" name="estado" required [(ngModel)]="pessoa.estado"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lingt" (click)="modal.dismiss()">Fechar</button>
+        <button (click)="save()" type="button" class="btn btn-success">Salvar</button>
+      </div>
+    </div>
+  </ng-template>
+    

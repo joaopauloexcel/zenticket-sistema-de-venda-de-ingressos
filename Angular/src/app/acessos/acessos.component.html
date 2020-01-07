@@ -1,0 +1,164 @@
+<div class="row sub-titulo">
+    <div class="col-1"><img style="margin-top:95px; margin-left:33px; width: 90px;" src="../assets/giphy.gif"></div>
+    <div class="col-2"></div>
+    <div class="col-6"><h6 class="titulo-sub">Inscrições realizadas...</h6></div>
+    <div class="col-3 perfilFormat" style="margin-top:10px;margin-right: -20px;">
+        <div class="dropdown">
+          <div class="menu-perfil">
+            <a data-toggle="dropdown"><img class="perfilFormat" src="../assets/perfil.png" (click)="useEmail()"></a> 
+            <table  class="dropdown-menu">
+                <b style="color: black;margin-top: 10px;margin-left: 20px">Login&nbsp; {{userEmail}}</b>
+                <a *ngIf="roles" class="hoverMouse btn btn-block" (click)="logout()">
+                    <img style="width: 100px;" src="../assets/logout.png">
+                </a>
+                <a *ngIf="!roles" class="hoverMouse btn btn-block" (click)="login()">
+                    <img style="width: 100px;" src="../assets/login.png">
+                </a>
+            </table>  
+          </div>        
+        </div>
+    </div>
+  </div>
+  <div class="container" style="z-index:1">
+    <div class="row">
+        <div class="col-12 container-fluid conteudo">
+            <br>
+            <table *ngIf="roles==3 || roles==2" class="table table-borderless fixo tabelatitulo">
+              <tr style="height: 0px">
+                <td width="100%">
+                </td>
+                <td width="170px">
+                      <div class="form-group" style="width:170px;height:40px;bottom: 200px; font-size:13px;margin-bottom:-10px;margin-top:-8px;" >
+                          <input *ngIf="roles==3 || roles==2" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Buscar cadastro..."
+                          [(ngModel)]="search" (keyup)="getInscriSearch()">
+                      </div>
+                </td>
+                <td *ngIf="roles==1" width="170px">
+                </td>
+                <td width="30px">
+                </td>
+              </tr>
+            </table>
+              <table style="padding:20px; padding-bottom: 10px">
+                  <thead class="titulo_tabela">
+                      <tr style="background-color: #f8f9fa">
+                        <th width="30px" style="width: 30px;border-right:0px;">
+                        </th>
+                        <th width="300px" style="text-align: left;border-left:0px">
+                          Nome
+                        </th>
+                        <th width="30px" style="width: 30px;border-right:0px;">
+                        </th>
+                        <th width="200px" style="text-align: left;border-left:0px">
+                          E-mail 
+                        </th>
+                        <th width="304px" style="text-align: left;border-left:0px">
+                          Evento
+                        </th>
+                        <th width="304px" style="text-align: left;border-left:0px">
+                          Data
+                        </th>
+                        <th width="100px" colspan="4">
+                          
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ins of inscricoes" style="font-size: 15px;">
+                          <ng-container *ngIf="roles==1 && ins.pessoa.email==email"> 
+                              <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="100px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.pessoa.nome}}</span>
+                                </td>
+                                <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="400px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.pessoa.email}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.evento.titulo}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.evento.data | date: 'dd/MM/yyyy'}}</span>
+                                </td>
+                                <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a tiplacement="top" ngbTooltip="Imprimir" (click)="updateInscricao(ins);exportPDF()">
+                                      <img style="width: 25px; height: 25px;" src="../assets/impressora.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a  *ngIf="roles==3" tiplacement="top" ngbTooltip="Apagar" (click)="updateInscricao(ins);open(excluirModal)">
+                                      <img style="width: 25px; height: 25px;" src="../assets/apagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a *ngIf="roles!=3" tiplacement="top" ngbTooltip="Impossível Excluir!">
+                                      <img width="20px" src="../assets/Napagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    </td>
+                          </ng-container>
+                          <ng-container *ngIf="roles==2 || roles==3"> 
+                              <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="100px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.pessoa.nome}}</span>
+                                </td>
+                                <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="400px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.pessoa.email}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.evento.titulo}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{ins.evento.data | date: 'dd/MM/yyyy'}}</span>
+                                </td>
+                                <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a tiplacement="top" ngbTooltip="Apagar" (click)="updateInscricao(ins);exportPDF()">
+                                      <img style="width: 25px; height: 25px;" src="../assets/impressora.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a  *ngIf="roles==3" tiplacement="top" ngbTooltip="Apagar" (click)="updateInscricao(ins);open(excluirModal)">
+                                      <img style="width: 25px; height: 25px;" src="../assets/apagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a *ngIf="roles!=3" tiplacement="top" ngbTooltip="Impossível Excluir!">
+                                      <img width="20px" src="../assets/Napagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    </td>
+                          </ng-container>
+                        </tr>  
+                    </tbody>
+            </table>
+          </div>  
+    </div>    
+  </div>
+    
+    
+    <!-- Modal Excluir -->
+    <ng-template #excluirModal let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirma a Exclusão?</h5>
+          <button type="button" class="close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>A operação será irreversível, deseja continuar?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button"class="btn btn-lingt" (click)="modal.dismiss()">Cancelar</button>
+          <button (click)="deleteInscricao()" type="button" class="btn btn-danger">Excluir</button>
+        </div>
+      </div>
+    </ng-template>
+  

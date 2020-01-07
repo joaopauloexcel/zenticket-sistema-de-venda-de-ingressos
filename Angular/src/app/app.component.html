@@ -1,0 +1,43 @@
+<div style="z-index:2; position:fixed">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <nav class="navbar menu" style="background-color: #ffce2d">
+    <div class="col-4">
+      <img src="../assets/logo_branca.png">
+    </div>
+    <div class="col-5">
+      <div class="row">
+        <div class="menu-pricipal">
+          <a class="nav-link" routerLink="/home">
+            <img src="../assets/menu_home.fw.png">
+          </a>
+        </div>
+        <div class="menu-pricipal">
+          <a class="nav-link" routerLink="/pessoas">
+            <img src="../assets/menu_cadastros.fw.png">
+          </a>
+        </div>
+        <div class="menu-pricipal">
+          <a class="nav-link" routerLink="/acessos">
+            <img src="../assets/menu_mensagens.fw.png">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 perfilFormat">
+       <b style="font-size: 20px;">ZenTicket.com.br</b>
+    </div>
+  </nav>
+</div>
+<main class="justify-content-center">
+    <div style="height: 100.08vh;">
+    <router-outlet></router-outlet>
+    </div>
+</main>
+
+
+  <!--
+  <div id="rodape">
+    <label>Copyright&#174;</label>
+  </div>-->
+  
+

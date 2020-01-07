@@ -1,0 +1,277 @@
+<div class="row sub-titulo">
+    <div class="col-1"><img style="margin-top:95px; margin-left:33px; width: 90px;" src="../assets/giphy.gif"></div>
+    <div class="col-2"></div>
+    <div class="col-6"><h6 class="titulo-sub">Dados de cadastro...</h6></div>
+    <div class="col-3 perfilFormat" style="margin-top:10px;margin-right: -20px;">
+        <div class="dropdown">
+          <div class="menu-perfil">
+            <a data-toggle="dropdown"><img class="perfilFormat" src="../assets/perfil.png" (click)="useEmail()"></a> 
+            <table  class="dropdown-menu">
+                <b style="color: black;margin-top: 10px;margin-left: 20px">Login&nbsp; {{userEmail}}</b>
+                <a *ngIf="roles" class="hoverMouse btn btn-block" (click)="logout()">
+                    <img style="width: 100px;" src="../assets/logout.png">
+                </a>
+                <a *ngIf="!roles" class="hoverMouse btn btn-block" (click)="login()">
+                    <img style="width: 100px;" src="../assets/login.png">
+                </a>
+            </table>  
+          </div>        
+        </div>
+    </div>
+  </div>
+  <div class="container" style="z-index:1">
+    <div class="row">
+        <div class="col-12 container-fluid conteudo">
+            <br>
+            <table *ngIf="roles==3 || roles==2" class="table table-borderless fixo tabelatitulo">
+              <tr style="height: 0px">
+                    <ng-container>
+                        <td width="100%" style="padding-left:0px">
+                            <div *ngIf="roles==3 || roles==2" class="btn-add" (click)="newPeople();openLg(salvarModal)">
+                                <img class="icone-add" width="16px" src="../assets/add.png" >Cadastrar
+                            </div>
+                          </td>
+                          <td width="160px">
+                            <select style="height:35px;bottom: 100px; font-size:13px;margin-bottom:-10px;margin-top:-8px" 
+                             type="text" class="form-control" name="role" [(ngModel)]="role" required (change)="searchRoles()">
+                                <option  *ngIf="roles=='3'" value="">Todos</option>
+                                <option  *ngIf="roles=='3'" value="3">Administrador</option>
+                                <option  value="2">Funcionário</option>
+                                <option  value="1">Cliente</option>
+                            </select> 
+                          </td>
+                          <td width="170px">
+                                <div class="form-group" style="bottom: 100px;height:30px;bottom: 200px; font-size:13px;margin-bottom:-10px;margin-top:-8px" >
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Buscar cadastro..."
+                                    [(ngModel)]="search" (keyup)="searchUser()">
+                                </div>
+                          </td>
+                    </ng-container>
+                    <ng-container *ngIf="roles==1">
+                        <td width="949px">
+                          </td>
+                    </ng-container>                    
+                    <td width="30px">
+                    </td>
+                  </tr>
+                 </table>
+                  <table style="padding:20px; padding-bottom: 10px">
+                      <thead class="titulo_tabela">
+                      <tr style="background-color: #f8f9fa">
+                        <th width="30px" style="width: 30px;border-right:0px;">
+                        </th>
+                        <th width="300px" style="text-align: left;border-left:0px">
+                          Nome
+                        </th>
+                        <th width="30px" style="width: 30px;border-right:0px;">
+                        </th>
+                        <th width="200px" style="text-align: left;border-left:0px">
+                          E-mail
+                        </th>
+                        <th width="304px" style="text-align: left;border-left:0px">
+                          Bairro
+                        </th>
+                        <th width="304px" style="text-align: left;border-left:0px">
+                          Cidade
+                        </th>
+                        <th width="100px" colspan="4">
+                          
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let p of pessoas" style="font-size: 15px;">
+                          <ng-container *ngIf="roles==1 && p.email==mail">
+                                <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="100px" style="text-align: left;border-left:0px">
+                                    <span>{{p.nome}}</span>
+                                </td>
+                                <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="400px" style="text-align: left;border-left:0px">
+                                    <span>{{p.email}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{p.bairro}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{p.cidade}}</span>
+                                </td>
+                                <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a tiplacement="top" ngbTooltip="Editar" (click)="updatePessoa(p);open(salvarModal)">
+                                      <img style="width: 25px; height: 25px;" src="../assets/editar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    <a tiplacement="top" ngbTooltip="Impossível Excluir!">
+                                      <img style="width: 25px; height: 25px;" src="../assets/Napagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                  </td>
+                            </ng-container>     
+                            <ng-container *ngIf="roles==3 || roles==2">
+                              <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="100px" style="text-align: left;border-left:0px">
+                                    <span>{{p.nome}}</span>
+                                </td>
+                                <td width="30px" style="width: 30px;border-right:0px;">
+                                </td>
+                                <td width="400px" style="text-align: left;border-left:0px">
+                                    <span>{{p.email}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{p.bairro}}</span>
+                                </td>
+                                <td width="304px" style="text-align: left;border-left:0px">
+                                    <span>{{p.cidade}}</span>
+                                </td>
+                                <td style="border-right:0px;border-left:0px;">
+                                    <a tiplacement="top" ngbTooltip="Editar" (click)="updatePessoa(p);open(salvarModal)">
+                                      <img style="width:20px; height: 25px" width="20px" src="../assets/editar.png">
+                                    </a>
+                                  </td>
+                                  <td *ngIf="roles==3 && p.id!=1" style="border-right:0px;border-left:0px;" width="12px">
+                                    <a tiplacement="top" ngbTooltip="Apagar" (click)="updatePessoa(p);open(excluirModal)">
+                                      <img style="width: 25px; height: 25px;" src="../assets/apagar.png">
+                                    </a>
+                                  </td>
+                                  <td *ngIf="roles==2 || p.id==1" style="border-right:0px;border-left:0px;" width="12px">
+                                    <a  tiplacement="top" ngbTooltip="Impossível Excluir!">
+                                      <img style="width: 25px; height: 25px;" src="../assets/Napagar.png">
+                                    </a>
+                                  </td>
+                                  <td style="border-right:0px;border-left:0px;" width="12px">
+                                    </td>  
+                          </ng-container>
+                        </tr>                        
+                    </tbody>
+            </table>
+          </div>  
+    </div>    
+  </div>
+
+  <!-- Modal Alterar/Cadastrar -->
+<ng-template #salvarModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}} pessoa</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input  type="text" class="form-control col-9" name="nome" required [(ngModel)]="pessoa.nome"/>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control col-9" name="email" required [(ngModel)]="pessoa.email"/>
+          </div>
+          <div class="form-group row">
+            &nbsp; &nbsp; &nbsp; &nbsp;<label for="senha" class="col-4">Senha</label>
+            &nbsp; &nbsp; <label *ngIf="roles==3 || roles==2" for="permissao" class="col-4">Tipo de Cadastro:</label>
+          </div>
+          <div class="form-group row">
+              &nbsp; &nbsp; &nbsp; &nbsp;<input type="password" class="form-control col-4" name="senha" required [(ngModel)]="pessoa.senha"/>
+              &nbsp; &nbsp;<select *ngIf="roles==3 || roles==2" type="text" class="form-control col-4" name="permissao" required [(ngModel)]="pessoa.permissao">
+                <option>Selecione...</option>
+                <option *ngIf="roles==3" value="3">Administrador</option>
+                <option value="2">Funcionário</option>
+                <option value="1">Cliente</option>
+              </select> 
+            </div>
+          <div class="row form-group">
+            <div class="col-4">
+              <label for="cep">CEP:</label>
+              <input (keyup)="buscarCep()" maxlength="8" type="text" class="form-control" name="cep" required [(ngModel)]="pessoa.cep"/>
+            </div>
+            <div class="col-6">
+              <label for="rua">Rua:</label>
+              <input type="text" class="form-control"  name="rua" [(ngModel)]="pessoa.rua"/>
+            </div>
+            <div class="col-2">
+              <label for="numero">Número:</label>
+              <input type="text" class="form-control" name="numero" required [(ngModel)]="pessoa.numero"/>
+            </div>
+          </div> 
+          <div class="row form-group">
+            <div class="col">
+              <label for="complemento">Complemento:</label>
+              <input type="text" class="form-control" name="complemento" required [(ngModel)]="pessoa.complemento"/>
+            </div>
+            <div class="col">
+              <label for="bairro">Bairro:</label>
+              <input type="text" class="form-control" name="bairro" required [(ngModel)]="pessoa.bairro"/>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-7">
+              <label for="cidade">Cidade:</label>
+              <input type="text" class="form-control" name="cidade" required [(ngModel)]="pessoa.cidade"/>
+            </div>
+            <div class="col-5">
+              <label for="estado">Estado:</label>
+              <input type="text" class="form-control" name="estado" required [(ngModel)]="pessoa.estado"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lingt" (click)="modal.dismiss()">Fechar</button>
+        <button (click)="save()" type="button" class="btn btn-success">Salvar</button>
+      </div>
+    </div>
+  </ng-template>
+    
+    
+    <!-- Modal Excluir -->
+    <ng-template #excluirModal let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirma a Exclusão?</h5>
+          <button type="button" class="close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>A operação será irreversível, deseja continuar?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button"class="btn btn-lingt" (click)="modal.dismiss()">Cancelar</button>
+          <button (click)="deletePeople()" type="button" class="btn btn-danger">Excluir</button>
+        </div>
+      </div>
+    </ng-template>
+
+  <!-- Modal Envio de mensagem -->
+<ng-template #enviaEmail let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Envio de E-mail para {{nameMessage}}</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="title">Título:</label>
+            <input  type="text" class="form-control" name="title" required [(ngModel)]="post.title"/>
+          </div>
+          <div class="form-group">
+            <label for="text">Texto:</label>
+            <textarea type="text" class="form-control" name="text" required [(ngModel)]="post.text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lingt" (click)="modal.dismiss()">Fechar</button>
+        <button (click)="sendEmail();modal.dismiss()" type="button" class="btn btn-success">Salvar</button>
+      </div>
+    </div>
+  </ng-template>
